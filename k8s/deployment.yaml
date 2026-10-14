@@ -1,0 +1,33 @@
+# ⚠️ THE NUMBERS BELOW WERE COPIED FROM ANOTHER SERVICE AND NOBODY MEASURED THIS ONE.
+#
+# That is the state you are inheriting, and it is the normal one. Your job is to replace them
+# with numbers you can defend, which means observing this worker under both modes first.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: settlement
+  labels: { app: settlement }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: settlement }
+  template:
+    metadata:
+      labels: { app: settlement }
+    spec:
+      containers:
+        - name: settlement
+          image: settlement:0.1.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MODE
+              value: "steady"
+            - name: BATCH_MB
+              value: "64"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
